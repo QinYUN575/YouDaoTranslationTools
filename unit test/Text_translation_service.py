@@ -71,9 +71,8 @@ def connect():
         fo.close()
     if contentType == 'application/json;charset=UTF-8':
         console.print('源文本:' , q)
-        response_json = json.loads(response.content.decode("utf-8"))
-        console.print('目标文本:' , response_json.get('translation')[0])
-        pass
+        result = json.loads(str(response.content, encoding="utf-8"))["translation"]
+        console.print('目标文本:' , result[0])
     else:
         console.log('Fail', response.content)
 
