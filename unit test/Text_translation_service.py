@@ -37,20 +37,19 @@ def do_request(data):
     return requests.post(YOUDAO_URL, data=data, headers=headers)
 
 
-def connect():
-    q = "中文测试文本"
+def connect(inputtext, fromlang, tolang):
 
     data = {}
-    data['from'] = FROM_LANG
-    data['to'] = TO_LANG
+    data['from'] = fromlang
+    data['to'] = tolang
     data['signType'] = 'v3'
     curtime = str(int(time.time()))
     data['curtime'] = curtime
     salt = str(uuid.uuid1())
-    signStr = APP_KEY + truncate(q) + salt + curtime + APP_SECRET
+    signStr = APP_KEY + truncate(inputtext) + salt + curtime + APP_SECRET
     sign = encrypt(signStr)
     data['appKey'] = APP_KEY
-    data['q'] = q
+    data['q'] = inputtext
     data['salt'] = salt
     data['sign'] = sign
 
@@ -61,7 +60,7 @@ def connect():
     # console.log('response: ' + str(response.content))
 
     contentType = response.headers['Content-Type']
-    console.log('ContentType: ' + contentType)
+    # console.log('ContentType: ' + contentType)
 
     if contentType == "audio/mp3":
         millis = int(round(time.time() * 1000))
@@ -70,11 +69,12 @@ def connect():
         fo.write(response.content)
         fo.close()
     if contentType == 'application/json;charset=UTF-8':
-        console.print('源文本:' , q)
+        console.print('源文本:' , inputtext)
         result = json.loads(str(response.content, encoding="utf-8"))["translation"]
         console.print('目标文本:' , result[0])
+        return result
     else:
         console.log('Fail', response.content)
 
 if __name__ == '__main__':
-    connect()
+    connect("中文测试文本", FROM_LANG, TO_LANG)
