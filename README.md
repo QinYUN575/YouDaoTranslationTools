@@ -26,7 +26,7 @@ YouDaoTranslationTools - 有道翻译工具
 
 | 文件 | 说明 |
 | --- | --- |
-| [Text_translation_service.py](./unit\ test/Text_translation_service.py) | 文本中译英 |
+| [Text_translation_service.py](./unit test/Text_translation_service.py) | 文本中译英 |
 
 
 **相关资源（Resources）：**
